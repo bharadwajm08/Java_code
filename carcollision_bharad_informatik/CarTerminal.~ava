@@ -1,0 +1,33 @@
+public class CarTerminal{
+  private String color;
+  private int speed;
+  public CarTerminal(String color, int speed){
+    this.color = color;
+    this.speed = 0;
+  }
+  public void set_color(String color){
+    this.color = color;
+  }
+  public String get_color(){
+    return color;
+  }
+  public void set_speed(int speed){
+    if (speed >= 0) {
+      this.speed = speed;
+    } else {
+      System.out.println("Nicht Möglich...Wert ist nicht realistisch...");
+    }    
+    }
+  public int get_speed(){
+    return speed;
+    }
+  public static void main(String[] args) {
+    CarTerminal auto1 = new CarTerminal("blau");
+    System.out.println("Das Auto hat die Farbe:"+ auto1.get_color()+"und ist einsatzbereit");
+    auto1.set_color("gruen");
+    System.out.println("Das Auto hat die Farbe:"+ auto1.get_color()+"und ist einsatzbereit");
+    auto1.set_speed(270);
+    System.out.println("Das Auto hat die Farbe:"+ auto1.get_color()+"mit"+ auto1.get_speed()+"km/h und ist einsatzbereit");
+  }
+  
+  }

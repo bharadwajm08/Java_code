@@ -1,0 +1,96 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.Random;
+
+public class car_game extends JPanel implements KeyListener{
+  private Car car;
+  private glassfarbe glassfarbe;
+  private obstacles Obstacles;
+  private int x = 200;
+  private int y = 200;
+  private Timer timer;
+  private boolean gameOver = false;
+  
+  public car_game(){
+    car = new Car("Red");
+    glassfarbe = new glassfarbe("Black");
+    Obstacles = new ArrayList<>();
+    setFocusable(true);
+    addKeyListener(this);
+    generateObstacles();
+    timer = new Timer(20, e ->{
+      if(!gameOver){
+        moveBackground();
+        moveObstacles();
+        checkCollisions();
+        repaint();
+      }
+      });
+    timer.start();
+    }
+  private void moveBackground() {
+    y += 5;
+    if(y >= getHeight()){
+      y = 0;
+      }
+  }
+  @Override
+  protected void paintComponent(Graphics g){
+    super.paintComponent(g);
+    g.setColor(Color.LIGHT_GRAY);
+    g.fillRect(0, y,getWidth(),getHeight());
+    g.fillRect(0, y -getHeight(),getWidth(), getHeight());
+    g.setColor(Color.decode(car.get_color().equals("Red") ? "#FF0000":"#0000FF"));
+    g.fillRect(x,y,100,30);
+    g.fillRect(x+50,y-20,50, 30);
+    g.fillRect(x+47, y-25,47, 35);
+    g.fillRect(x+45, y-30,40, 35);
+    g.setColor(Color.decode(glassfarbe.get_glassfarbe().equals("Black")? "#000000" : "#FFFFFF"));
+    g.fillRect(x+50,y-17,47,20);
+    g.setColor(Color.BLACK);
+    g.fillOval(x,y+25,15,15);
+    g.fillOval(x+30,y+25,15,15);
+    g.fillOval(x+80,y+25,15,15);
+    g.fillOval(x+15,y+25,15,15);
+    g.setColor(Color.WHITE);
+    g.drawString("Geschwindigkeit: "+ car.get_speed()+" km/h", 10,20);
+    g.drawString("Gang: " +car.get_gear(),10,40);
+    }
+  @Override
+  public void keyPressed(KeyEvent e) {
+    int key = e.getKeyCode();
+    if (key == KeyEvent.VK_UP) {
+      car.accelerate();
+    } else if (key == KeyEvent.VK_DOWN) {
+      car.brake();
+    } // end of if
+    if  (key == KeyEvent.VK_W){
+      car.shift_up();
+      }else if (key == KeyEvent.VK_S) {
+      car.shift_down();        
+      }
+    if (key == KeyEvent.VK_LEFT) {
+      x -= car.get_speed() / 10;
+    } // end of if
+    if (key == KeyEvent.VK_RIGHT) {
+      x += car.get_speed() / 10;
+    } // end of if
+    repaint();    
+  }
+  @Override
+  public void keyReleased(KeyEvent e){
+  }                               
+  @Override
+  public void keyTyped(KeyEvent e){
+  }
+  public static void main(String[] args) {
+    JFrame frame = new JFrame("Car Game");
+    car_game game = new car_game();
+    frame.add(game);
+    frame.setSize(800, 600);
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    frame.setVisible(true);
+  }
+}
