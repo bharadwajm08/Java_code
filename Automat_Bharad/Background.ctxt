@@ -1,0 +1,5 @@
+#BlueJ class context
+comment0.target=Background
+comment1.params=eingabe\ pattern
+comment1.target=boolean\ suche(java.lang.String,\ java.lang.String)
+numComments=2
